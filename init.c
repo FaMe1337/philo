@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:22:19 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/15 17:54:28 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:39:32 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void assign_forks(t_philo *philo, t_fork *forks, int i)
 	int	philo_nbr;
 
 	philo_nbr = philo->data->philo_nbr;
-	philo->second_fork = &forks[(i + 1) % philo_nbr];
-	philo->first_fork = &forks[i];
+	philo->first_fork = &forks[(i + 1) % philo_nbr];
+	philo->second_fork = &forks[i];
 	if (philo->id % 2 == 0)
 	{
 		philo->first_fork = &forks[i];
@@ -38,24 +38,30 @@ static void philo_init(t_data *data)
 		data->philos[i].meals_counter = 0;
 		data->philos[i].data = data;
 		assign_forks(&data->philos[i], data->forks, i);
+		i++;
 	}
 }
 
-void	data_init(t_data *data)
+int	data_init(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	data->end_simulation = false;
+	data->all_threads_rdy = false;
 	if (!(data->philos = malloc(sizeof(t_philo) * data->philo_nbr)))
-		error_and_exit("Malloc for philos struc failed");
+		return (error_and_exit("Malloc for philos struc failed", 0));
 	if (!(data->forks = malloc(sizeof(t_fork) * data->philo_nbr)))
-		error_and_exit("Malloc for forks struc failed");
+		return (error_and_exit("Malloc for forks struc failed", data));
+	if ((pthread_mutex_init(&data->data_mutex, NULL)) != 0);
+		return (error_and_exit("Mutex init for data_mutex failed", data));
 	while (i < data->philo_nbr)
 	{
-		pthread_mutex_init(&data->forks[i].fork, NULL);
+		if ((pthread_mutex_init(&data->forks[i].fork, NULL)) != 0)
+			return (error_and_exit("Mutex init for fork failed", data));
 		data->forks[i].fork_id = i;
 		i++;
 	}
 	philo_init(data);
+	return (0);
 }

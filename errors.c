@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils.c                                       :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:20:43 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/15 16:44:45 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:32:24 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	error_and_exit(char *error)
+static void	free_data(t_data *data)
 {
+	if (data->forks != NULL)
+			free(data->forks);
+	if (data->philos != NULL)
+		free(data->philos);
+	return;
+}
+
+int	error_and_exit(char *error, t_data *data)
+{
+	if (data != 0)
+		free_data(data);
 	printf("%s\n", error);
-	//return;
-	exit(1);
+	return (1);
 }

@@ -21,9 +21,9 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int		id;
-	int		meals_counter;
-	bool	full;
+	long	meals_counter;
 	long	last_meal_time;  // tempo desde a ultima refeiçao
+	bool	full;
 	t_fork	*first_fork;
 	t_fork	*second_fork;
 	pthread_t	thread_id;  // cada philo é uma thread
@@ -39,17 +39,25 @@ struct s_data
 	long	nbr_of_meals;
 	long	start_simulation;
 	bool	end_simulation; // quando alguem morre ou estao todos cheios
+	bool	all_threads_rdy;
+	pthread_mutex_t	data_mutex; //semaforo da mesa
 	t_fork *forks; //array de forks
 	t_philo *philos; // array de philos
 };
 
 // error
-void	error_and_exit(char *error);
+int	error_and_exit(char *error, t_data *data);
 
-// parsing
-void	parse_input(t_data *data, char **av, int ac);
+// parsing and data init
+int	parse_input(t_data *data, char **av, int ac);
+int	data_init(t_data *data);
 
-//data init
-void	data_init(t_data *data);
+//controls
+void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
+bool	get_bool(pthread_mutex_t * mutex, bool *value);
+void	set_long(pthread_mutex_t *mutex, long *dest, long value);
+long	get_long(pthread_mutex_t * mutex, long *value);
+bool	simulation_finished(t_data * data);
+
 
 #endif

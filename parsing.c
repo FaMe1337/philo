@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:45:06 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/15 18:03:17 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:34:56 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ static long	ft_atol(const char *nptr)
 	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
 		nptr++;
 	if (*nptr == '-')
-		error_and_exit("Give only positive numbers");
+		return (error_and_exit("Give only positive numbers", 0));
 	else if (*nptr == '+')
 		nptr++;
 	if (!is_digit(*nptr))
-		error_and_exit("Input must be all numbers");
+		return (error_and_exit("Input must be all numbers", 0));
 	while (*nptr >= '0' && *nptr <= '9' && result <= INT_MAX)
 	{
 		result = result * 10 + *nptr - '0';
 		nptr++;
 	}
 	if (result > INT_MAX)
-		error_and_exit("Number used is too big");
+		return (error_and_exit("Number used is too big", 0));
 	return (result);
 }
 
-void	parse_input(t_data *data, char **av, int ac)
+int	parse_input(t_data *data, char **av, int ac)
 {
 	int i;
 
@@ -52,21 +52,23 @@ void	parse_input(t_data *data, char **av, int ac)
 	while (i < ac)
 	{
 		if (!av[i++][0])
-			error_and_exit("Please use valid arguments");
+			return (error_and_exit("Please use valid arguments", 0));
 	}
 	data->philo_nbr = ft_atol(av[1]);
 	data->time_to_die = ft_atol(av[2]) *1000;
 	data->time_to_eat= ft_atol(av[3]) *1000;
 	data->time_to_sleep = ft_atol(av[4]) *1000;
+	 if (data->philo_nbr <= 0)
+        return (error_and_exit("Number of philosophers must be greater than 0", 0));
 	if (data->time_to_die < 60000
 		|| data->time_to_eat < 60000
 		|| data->time_to_sleep < 60000)
-		{
-			error_and_exit("Use timestamps bigger than 60ms pls");
-			return;
-		}
+			return (error_and_exit("Use timestamps bigger than 60ms pls", 0));
 	if (av[5])
 		data->nbr_of_meals = ft_atol(av[5]);
+			if (data->nbr_of_meals <= 0)
+				return (error_and_exit("Please give positive number or non-zero for meals", 0));
 	else
 	data->nbr_of_meals = -1;
+	return (0);
 }

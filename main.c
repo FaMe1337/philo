@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:17:42 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/15 17:59:49 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:40:42 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ int	main(int ac, char **av)
 
 	if (ac == 5 || ac == 6)
 	{
-		parse_input(&data, av, ac);
-		//data_init(&data);
-		//simulation_start(&data);
+		if (parse_input(&data, av, ac) != 0);
+			return (1);
+		if (data_init(&data) != 0);
+			return (1);
+		//dinner_start(&data);
 		// maybe clean
 	}
 	else
-		error_and_exit("Wrong number of arguments");
+		return (error_and_exit("Wrong number of arguments", 0));
 	return (0);
 }
