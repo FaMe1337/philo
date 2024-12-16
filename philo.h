@@ -59,5 +59,12 @@ void	set_long(pthread_mutex_t *mutex, long *dest, long value);
 long	get_long(pthread_mutex_t * mutex, long *value);
 bool	simulation_finished(t_data * data);
 
+//dinner
+int	dinner_start(t_data *data);
+void	*dinner_sim(void *data);
+
+
+void wait_all_threads(t_data *data);
+long	gettime(int value, t_data *data);
 
 #endif
