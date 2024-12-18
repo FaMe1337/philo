@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:45:06 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/16 17:34:56 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:28:31 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int	parse_input(t_data *data, char **av, int ac)
 	data->time_to_sleep = ft_atol(av[4]) *1000;
 	 if (data->philo_nbr <= 0)
         return (error_and_exit("Number of philosophers must be greater than 0", 0));
-	if (data->time_to_die < 60000
-		|| data->time_to_eat < 60000
+	if (data->time_to_die < 60000 || data->time_to_eat < 60000
 		|| data->time_to_sleep < 60000)
 			return (error_and_exit("Use timestamps bigger than 60ms pls", 0));
 	if (av[5])

@@ -10,6 +10,16 @@
 
 typedef struct s_data	t_data;
 
+//estados para os philos
+typedef enum s_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+}	t_philo_status;
 
 typedef struct s_fork
 {
@@ -26,6 +36,7 @@ typedef struct s_philo
 	bool	full;
 	t_fork	*first_fork;
 	t_fork	*second_fork;
+	pthread_mutex_t	philo_mutex;
 	pthread_t	thread_id;  // cada philo é uma thread
 	t_data		*data;
 }			t_philo;
@@ -64,9 +75,12 @@ bool	simulation_finished(t_data * data);
 int		dinner_start(t_data *data);
 void	*dinner_sim(void *data);
 
+
 //utils
 void 	wait_all_threads(t_data *data);
 long	gettime(int value, t_data *data);
 void	precise_usleep(long usec, t_data *data);
+void	write_status(t_philo_status status, t_philo *philo, long death);
+
 
 #endif
