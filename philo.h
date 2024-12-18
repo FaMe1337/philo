@@ -41,6 +41,7 @@ struct s_data
 	bool	end_simulation; // quando alguem morre ou estao todos cheios
 	bool	all_threads_rdy;
 	pthread_mutex_t	data_mutex; //semaforo da mesa
+	pthread_mutex_t	mutex_write;
 	t_fork *forks; //array de forks
 	t_philo *philos; // array de philos
 };
@@ -60,11 +61,12 @@ long	get_long(pthread_mutex_t * mutex, long *value);
 bool	simulation_finished(t_data * data);
 
 //dinner
-int	dinner_start(t_data *data);
+int		dinner_start(t_data *data);
 void	*dinner_sim(void *data);
 
-
-void wait_all_threads(t_data *data);
+//utils
+void 	wait_all_threads(t_data *data);
 long	gettime(int value, t_data *data);
+void	precise_usleep(long usec, t_data *data);
 
 #endif

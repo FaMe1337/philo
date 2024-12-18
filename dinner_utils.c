@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:46:23 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/16 18:06:30 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:38:57 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,27 @@ long	gettime(int value, t_data *data)
 	else
 		return (error_and_exit ("Wrong input to gettimeofday", data));
 	return (0);
+}
+
+void	precise_usleep(long usec, t_data *data)
+{
+	long	start;
+	long	elapsed;
+	long	remaining;
+
+	start = gettime(2, data);
+	while (gettime(2,data) - start < usec)
+	{
+		if (simulation_finished(data))
+			break;
+		elapsed = gettime(2, data) - start;
+		remaining = usec - elapsed;
+		if (remaining > 1000)
+			usleep(usec / 2);
+		else
+		{
+			while (gettime(2,data) - start < usec)
+				;
+		}
+	}
 }

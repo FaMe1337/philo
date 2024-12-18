@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:20:43 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/16 17:32:24 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:03:30 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	free_data(t_data *data)
 {
-	if (data->forks != NULL)
-			free(data->forks);
-	if (data->philos != NULL)
+	if (data->forks)
+		free(data->forks);
+	if (data->philos)
 		free(data->philos);
 	return;
 }

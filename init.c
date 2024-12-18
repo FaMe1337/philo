@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:22:19 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/16 17:39:32 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:49:54 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	data_init(t_data *data)
 	i = 0;
 	data->end_simulation = false;
 	data->all_threads_rdy = false;
+	if (data->philo_nbr >= 16)
+		return (error_and_exit("Lets try to not burn the PC", 0));
 	if (!(data->philos = malloc(sizeof(t_philo) * data->philo_nbr)))
 		return (error_and_exit("Malloc for philos struc failed", 0));
 	if (!(data->forks = malloc(sizeof(t_fork) * data->philo_nbr)))
