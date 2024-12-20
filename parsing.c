@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:45:06 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/19 23:23:58 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:30:38 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ static int is_digit(int c)
 static long	ft_atol(const char *nptr)
 {
 	long	result;
-	int		sign;
 
 	result = 0;
-	sign = 1;
 	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
 		nptr++;
 	if (*nptr == '-')
@@ -44,11 +42,8 @@ static long	ft_atol(const char *nptr)
 	return (result);
 }
 
-int	parse_input(t_data *data, char **av, int ac)
+int	parse_input(t_data *data, char **av)
 {
-	int i;
-
-	i = 1;
 	data->philo_nbr = ft_atol(av[1]);
 	data->time_to_die = ft_atol(av[2]) *1000;
 	data->time_to_eat= ft_atol(av[3]) *1000;

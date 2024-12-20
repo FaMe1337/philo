@@ -65,7 +65,7 @@ void	clean(t_data *data);
 
 
 // parsing and data init
-int	parse_input(t_data *data, char **av, int ac);
+int	parse_input(t_data *data, char **av);
 int	data_init(t_data *data);
 
 //controls
@@ -78,11 +78,11 @@ bool	simulation_finished(t_data * data);
 //dinner
 void	*solo_philo(void *data);
 int		dinner_start(t_data *data);
-void	*dinner_sim(void *data);
 void	thinking(t_philo *philo, bool value);
+void	eat(t_philo *philo);
 
 //utils
-void 	wait_all_threads(t_data *data);
+void	*dinner_sim(void *data);
 long	gettime(int value, t_data *data);
 void	precise_usleep(long usec, t_data *data);
 void	write_status(t_philo_status status, t_philo *philo);
@@ -93,6 +93,7 @@ void 	*monitor_dinner(void *monitor);
 bool 	all_threads_running(pthread_mutex_t *mutex, long *threads, long philo_nbr);
 void	increase_long(pthread_mutex_t *mutex, long *value);
 void	desyncro_philos(t_philo *philo);
+void 	wait_all_threads(t_data *data);
 
 
 

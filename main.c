@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:17:42 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/20 00:34:53 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:30:50 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 
 	if (ac == 5 || ac == 6)
 	{
-		if (parse_input(&data, av, ac))
+		if (parse_input(&data, av))
 			return (1);
 		if (data_init(&data))
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:57:57 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/20 10:58:41 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:40:48 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ static bool philo_died(t_philo *philo)
 	if (elapsed > to_die)
 		return (true);
 	return (false);
+}
+
+void wait_all_threads(t_data *data)
+{
+	while (!get_bool(&data->data_mutex, &data->all_threads_rdy))
+	;
 }
 
 void *monitor_dinner(void *monitor)
