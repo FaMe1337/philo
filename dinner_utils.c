@@ -6,13 +6,13 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:46:23 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/18 16:48:06 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 01:11:08 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	write_status(t_philo_status status, t_philo *philo, long death)
+void	write_status(t_philo_status status, t_philo *philo)
 {
 	long	elapsed;
 
@@ -30,7 +30,7 @@ void	write_status(t_philo_status status, t_philo *philo, long death)
 	else if (THINKING == status && !simulation_finished(philo->data))
 		printf("%-6ld %d is thinking \n", elapsed, philo->id);
 	else if (DIED == status)
-		printf("%-6ld %d died\n", death, philo->id);
+		printf("%-6ld %d died\n", elapsed, philo->id);
 	pthread_mutex_unlock(&philo->data->mutex_write);
 }
 
@@ -43,7 +43,7 @@ void wait_all_threads(t_data *data)
 long	gettime(int value, t_data *data)
 {
 	struct timeval tv;
-	if (gettimeofday(&tv, NULL));
+	if (gettimeofday(&tv, NULL))
 		return (error_and_exit ("Time of day failed", data));
 	if (value == 0) //seg
 		return (tv.tv_sec + (tv.tv_usec / 1000000));
@@ -70,11 +70,18 @@ void	precise_usleep(long usec, t_data *data)
 		elapsed = gettime(2, data) - start;
 		remaining = usec - elapsed;
 		if (remaining > 1000)
-			usleep(usec / 2);
+			usleep(remaining / 2);
 		else
 		{
 			while (gettime(2,data) - start < usec)
 				;
 		}
 	}
+}
+
+void	increase_long(pthread_mutex_t *mutex, long *value)
+{
+	pthread_mutex_lock(mutex);
+	(*value)++;
+	pthread_mutex_unlock(mutex);
 }

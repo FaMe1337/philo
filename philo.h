@@ -49,16 +49,20 @@ struct s_data
 	long	time_to_sleep;
 	long	nbr_of_meals;
 	long	start_simulation;
+	long	threads_running_nbr;
 	bool	end_simulation; // quando alguem morre ou estao todos cheios
 	bool	all_threads_rdy;
+	pthread_t	monitor;
 	pthread_mutex_t	data_mutex; //semaforo da mesa
 	pthread_mutex_t	mutex_write;
 	t_fork *forks; //array de forks
 	t_philo *philos; // array de philos
 };
 
-// error
+// error and clean
 int	error_and_exit(char *error, t_data *data);
+void	clean(t_data *data);
+
 
 // parsing and data init
 int	parse_input(t_data *data, char **av, int ac);
@@ -72,15 +76,24 @@ long	get_long(pthread_mutex_t * mutex, long *value);
 bool	simulation_finished(t_data * data);
 
 //dinner
+void	*solo_philo(void *data);
 int		dinner_start(t_data *data);
 void	*dinner_sim(void *data);
-
+void	thinking(t_philo *philo, bool value);
 
 //utils
 void 	wait_all_threads(t_data *data);
 long	gettime(int value, t_data *data);
 void	precise_usleep(long usec, t_data *data);
-void	write_status(t_philo_status status, t_philo *philo, long death);
+void	write_status(t_philo_status status, t_philo *philo);
+void	increase_long(pthread_mutex_t *mutex, long *value);
+
+//monitor
+void 	*monitor_dinner(void *monitor);
+bool 	all_threads_running(pthread_mutex_t *mutex, long *threads, long philo_nbr);
+void	increase_long(pthread_mutex_t *mutex, long *value);
+void	desyncro_philos(t_philo *philo);
+
 
 
 #endif

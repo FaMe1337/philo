@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:22:19 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/18 18:44:19 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 00:11:06 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ static int philo_init(t_data *data)
 		data->philos[i].full = false;
 		data->philos[i].meals_counter = 0;
 		data->philos[i].data = data;
-		if ((pthread_mutex_init(&data->philos[i].philo_mutex, NULL)) != 0);
+		if ((pthread_mutex_init(&data->philos[i].philo_mutex, NULL)) != 0)
 			return (error_and_exit("Mutex init for philo mutex failed", data));
 		assign_forks(&data->philos[i], data->forks, i);
 		i++;
 	}
+	data->threads_running_nbr = 0;
 	return (0);
 }
 
@@ -58,13 +59,13 @@ int	data_init(t_data *data)
 		return (error_and_exit("Malloc for philos struc failed", 0));
 	if (!(data->forks = malloc(sizeof(t_fork) * data->philo_nbr)))
 		return (error_and_exit("Malloc for forks struc failed", data));
-	if ((pthread_mutex_init(&data->data_mutex, NULL)) != 0);
+	if ((pthread_mutex_init(&data->data_mutex, 0)) != 0)
 		return (error_and_exit("Mutex init for data_mutex failed", data));
-	if ((pthread_mutex_init(&data->mutex_write, NULL)) != 0);
+	if ((pthread_mutex_init(&data->mutex_write, 0)) != 0)
 		return (error_and_exit("Mutex init for write mutex failed", data));
 	while (i < data->philo_nbr)
 	{
-		if ((pthread_mutex_init(&data->forks[i].fork, NULL)) != 0)
+		if ((pthread_mutex_init(&data->forks[i].fork, 0)) != 0)
 			return (error_and_exit("Mutex init for fork failed", data));
 		data->forks[i].fork_id = i;
 		i++;

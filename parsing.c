@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:45:06 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/18 17:28:31 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/19 23:23:58 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ int	parse_input(t_data *data, char **av, int ac)
 	int i;
 
 	i = 1;
-	while (i < ac)
-	{
-		if (!av[i++][0])
-			return (error_and_exit("Please use valid arguments", 0));
-	}
 	data->philo_nbr = ft_atol(av[1]);
 	data->time_to_die = ft_atol(av[2]) *1000;
 	data->time_to_eat= ft_atol(av[3]) *1000;
@@ -64,9 +59,11 @@ int	parse_input(t_data *data, char **av, int ac)
 		|| data->time_to_sleep < 60000)
 			return (error_and_exit("Use timestamps bigger than 60ms pls", 0));
 	if (av[5])
+	{
 		data->nbr_of_meals = ft_atol(av[5]);
-			if (data->nbr_of_meals <= 0)
-				return (error_and_exit("Please give positive number or non-zero for meals", 0));
+		if (data->nbr_of_meals <= 0)
+			return (error_and_exit("Please give positive number or non-zero for meals", 0));
+	}
 	else
 	data->nbr_of_meals = -1;
 	return (0);
