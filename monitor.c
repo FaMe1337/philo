@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:57:57 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/20 01:36:15 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:58:41 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void *monitor_dinner(void *monitor)
 	while (!simulation_finished(data))
 	{
 		i = -1;
-		while (++i <data->philo_nbr && !simulation_finished(data))
+		while (++i < data->philo_nbr && !simulation_finished(data))
 		{
 			if (philo_died(&data->philos[i]))
 			{

@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:35:36 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/20 01:39:26 by famendes         ###   ########.fr       */
+/*   Updated: 2024/12/20 11:01:15 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	eat(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->first_fork->fork);
+	pthread_mutex_lock(&philo->first_fork->fork);
 	write_status(TAKE_FIRST_FORK, philo);
-	pthread_mutex_unlock(&philo->second_fork->fork);
+	pthread_mutex_lock(&philo->second_fork->fork);
 	write_status(TAKE_SECOND_FORK, philo);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(1, philo->data));
 	philo->meals_counter++;
@@ -24,8 +24,8 @@ static void	eat(t_philo *philo)
 	precise_usleep(philo->data->time_to_eat, philo->data);
 	if (philo->data->nbr_of_meals > 0 && philo->meals_counter == philo->data->nbr_of_meals)
 		set_bool(&philo->philo_mutex, &philo->full, true);
-	pthread_mutex_lock(&philo->first_fork->fork);
-	pthread_mutex_lock(&philo->second_fork->fork);
+	pthread_mutex_unlock(&philo->first_fork->fork);
+	pthread_mutex_unlock(&philo->second_fork->fork);
 }
 void	thinking(t_philo *philo,  bool value)
 {
@@ -51,7 +51,6 @@ void	*solo_philo(void *data)
 	t_philo *philo;
 
 	philo = (t_philo *) data;
-	wait_all_threads(philo->data);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(1, data));
 	increase_long(&philo->data->data_mutex, &philo->data->threads_running_nbr);
 	write_status(TAKE_FIRST_FORK, philo);
@@ -113,6 +112,7 @@ int	dinner_start(t_data *data)
 		if (pthread_join(data->philos[i].thread_id, NULL) != 0)
 			return (error_and_exit("thread join failed", data));
 	}
+	printf("ola\n");
 	set_bool(&data->data_mutex, &data->end_simulation, true);
 	if (pthread_join(data->monitor, NULL) != 0)
 		return (error_and_exit("thread join failed", data));
