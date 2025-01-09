@@ -6,7 +6,7 @@
 /*   By: famendes <famendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:35:36 by famendes          #+#    #+#             */
-/*   Updated: 2024/12/20 15:14:24 by famendes         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:32:27 by famendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	thinking(t_philo *philo,  bool value)
 	long t_think;
 
 	if (!value)
-		write_status(THINKING, philo);
+	write_status(THINKING, philo);
 	//se for n par nao queremos saber de um sistema justo
-	if (philo->data->philo_nbr % 2)
+	if (philo->data->philo_nbr % 2 == 0)
 		return;
 	t_eat = philo->data->time_to_eat;
 	t_sleep = philo->data->time_to_sleep;
@@ -63,12 +63,13 @@ void	*solo_philo(void *data)
 int	multiple_philo(t_data *data)
 {	int	i;
 
-	i = -1;
-	while (++i < data->philo_nbr)
+	i = 0;
+	while (i < data->philo_nbr)
 		{
 			if (pthread_create(&data->philos[i].thread_id, NULL,
 				dinner_sim, &data->philos[i]))
 				return (error_and_exit("thread creating for multiple philo failed", data));
+			i++;
 		}
 	return (0);
 }
